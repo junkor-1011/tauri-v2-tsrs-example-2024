@@ -2,22 +2,52 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
-import type { Args, Response, Channel } from "@ipc-if/greet";
+import type {
+  Args as GreetArgs,
+  Response as GreetResponse,
+  Channel as GreetChannel,
+} from "@ipc-if/greet";
+import type {
+  Args as RandomExampoleArgs,
+  Response as RandomExampoleResponse,
+  Error as RandomExampoleError,
+  Channel as RandomExampoleChannel,
+} from "@ipc-if/random-example";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
 
+  const [randomExampleMsg, setRandomExampleMsg] = useState<string>("");
+
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
-    const channel: Channel = "greet";
-    const args: Args = {
+    const channel: GreetChannel = "greet";
+    const args: GreetArgs = {
       name,
     };
-    const response: Response = await invoke(channel, { args });
+    const response: GreetResponse = await invoke(channel, { args });
 
     setGreetMsg(response.message);
+  }
+
+  async function randomExample() {
+    const channel: RandomExampoleChannel = "random_example";
+    const args: RandomExampoleArgs = {
+      requestId: self.crypto.randomUUID(),
+    };
+    try {
+      const { message, responseId, timestamp }: RandomExampoleResponse = await invoke(channel, { args });
+
+      const value = `(success)message: ${message}, responseId: ${responseId}, timestamp: ${timestamp}`;
+      setRandomExampleMsg(value);
+    } catch (err: unknown) {
+      const { errorMessage } = err as RandomExampoleError;
+      const value = `(failed)error message: ${errorMessage}`;
+
+      setRandomExampleMsg(value);
+    }
   }
 
   return (
@@ -52,6 +82,14 @@ function App() {
         <button type="submit">Greet</button>
       </form>
       <p>{greetMsg}</p>
+      <div>
+        <h2>random example</h2>
+        <button
+          type="button"
+          onClick={randomExample}
+        >Click</button>
+        <p>{randomExampleMsg}</p>
+      </div>
     </main>
   );
 }

@@ -328,8 +328,10 @@ checksum = "a21f936df1771bf62b77f047b726c4625ff2e8aa607c01ec06e5a05bd8463401"
 dependencies = [
  "android-tzdata",
  "iana-time-zone",
+ "js-sys",
  "num-traits",
  "serde",
+ "wasm-bindgen",
  "windows-targets 0.52.6",
 ]
 
@@ -1375,8 +1377,10 @@ dependencies = [
 name = "ipc-if"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "serde",
  "ts-rs",
+ "uuid",
 ]
 
 [[package]]
@@ -3098,12 +3102,15 @@ dependencies = [
 name = "tauri-app"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "ipc-if",
+ "rand 0.8.5",
  "serde",
  "serde_json",
  "tauri",
  "tauri-build",
  "tauri-plugin-shell",
+ "uuid",
 ]
 
 [[package]]
@@ -3535,9 +3542,11 @@ version = "10.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3a2f31991cee3dce1ca4f929a8a04fdd11fd8801aac0f2030b0fa8a0a3fef6b9"
 dependencies = [
+ "chrono",
  "lazy_static",
  "thiserror",
  "ts-rs-macros",
+ "uuid",
 ]
 
 [[package]]
