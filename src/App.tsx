@@ -4,14 +4,14 @@ import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 import type {
   Args as GreetArgs,
-  Response as GreetResponse,
   Channel as GreetChannel,
+  Response as GreetResponse,
 } from "@ipc-if/greet";
 import type {
   Args as RandomExampoleArgs,
-  Response as RandomExampoleResponse,
-  Error as RandomExampoleError,
   Channel as RandomExampoleChannel,
+  Error as RandomExampoleError,
+  Response as RandomExampoleResponse,
 } from "@ipc-if/random-example";
 
 function App() {
@@ -38,9 +38,11 @@ function App() {
       requestId: self.crypto.randomUUID(),
     };
     try {
-      const { message, responseId, timestamp }: RandomExampoleResponse = await invoke(channel, { args });
+      const { message, responseId, timestamp }: RandomExampoleResponse =
+        await invoke(channel, { args });
 
-      const value = `(success)message: ${message}, responseId: ${responseId}, timestamp: ${timestamp}`;
+      const value =
+        `(success)message: ${message}, responseId: ${responseId}, timestamp: ${timestamp}`;
       setRandomExampleMsg(value);
     } catch (err: unknown) {
       const { errorMessage } = err as RandomExampoleError;
@@ -87,7 +89,9 @@ function App() {
         <button
           type="button"
           onClick={randomExample}
-        >Click</button>
+        >
+          Click
+        </button>
         <p>{randomExampleMsg}</p>
       </div>
     </main>
