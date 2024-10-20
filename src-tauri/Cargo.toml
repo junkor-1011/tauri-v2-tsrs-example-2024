@@ -18,8 +18,13 @@ crate-type = ["staticlib", "cdylib", "rlib"]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
+"ipc-if" = { path = "./ipc-if" }
 tauri = { version = "2", features = [] }
 tauri-plugin-shell = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 
+[workspace]
+members = [ "ipc-if",
+    "ipc-if",
+]

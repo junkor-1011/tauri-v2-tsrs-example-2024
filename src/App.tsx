@@ -2,6 +2,7 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
+import type { Args, Response, Channel } from "@ipc-if/greet";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -9,7 +10,14 @@ function App() {
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-    setGreetMsg(await invoke("greet", { name }));
+
+    const channel: Channel = "greet";
+    const args: Args = {
+      name,
+    };
+    const response: Response = await invoke(channel, { args });
+
+    setGreetMsg(response.message);
   }
 
   return (
