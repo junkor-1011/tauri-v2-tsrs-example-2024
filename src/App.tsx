@@ -3,10 +3,18 @@ import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
 import type { GreetArgs, GreetChannelName, GreetResponse } from "@ipc-if/greet";
+import type {
+  RandomExampleArgs,
+  RandomExampleChannelName,
+  RandomExampleError,
+  RandomExampleResponse,
+} from "@ipc-if/random-example";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
   const [name, setName] = useState("");
+
+  const [randomExampleMsg, setRandomExampleMsg] = useState<string>("");
 
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
@@ -18,6 +26,26 @@ function App() {
     const response: GreetResponse = await invoke(channel, { args });
 
     setGreetMsg(response.message);
+  }
+
+  async function randomExample() {
+    const channel: RandomExampleChannelName = "random_example";
+    const args: RandomExampleArgs = {
+      requestId: self.crypto.randomUUID(),
+    };
+    try {
+      const { message, responseId, timestamp }: RandomExampleResponse =
+        await invoke(channel, { args });
+
+      const value =
+        `(success)message: ${message}, responseId: ${responseId}, timestamp: ${timestamp}`;
+      setRandomExampleMsg(value);
+    } catch (err: unknown) {
+      const { errorMessage } = err as RandomExampleError;
+      const value = `(failed)error message: ${errorMessage}`;
+
+      setRandomExampleMsg(value);
+    }
   }
 
   return (
@@ -52,6 +80,16 @@ function App() {
         <button type="submit">Greet</button>
       </form>
       <p>{greetMsg}</p>
+      <div>
+        <h2>random example</h2>
+        <button
+          type="button"
+          onClick={randomExample}
+        >
+          Click
+        </button>
+        <p>{randomExampleMsg}</p>
+      </div>
     </main>
   );
 }
