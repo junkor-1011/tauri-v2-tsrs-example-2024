@@ -4,14 +4,14 @@ use ts_rs::TS;
 #[derive(TS, Deserialize, Serialize)]
 #[ts(export, export_to = "random-example.ts", rename_all = "camelCase")]
 #[serde(rename_all = "camelCase")]
-pub struct Args {
+pub struct RandomExampleArgs {
     pub request_id: String,
 }
 
 #[derive(TS, Deserialize, Serialize)]
 #[ts(export, export_to = "random-example.ts", rename_all = "camelCase")]
 #[serde(rename_all = "camelCase")]
-pub struct Response {
+pub struct RandomExampleResponse {
     pub message: String,
     pub response_id: uuid::Uuid,
     pub timestamp: chrono::DateTime<chrono::Utc>,
@@ -20,12 +20,12 @@ pub struct Response {
 #[derive(TS, Deserialize, Serialize)]
 #[ts(export, export_to = "random-example.ts", rename_all = "camelCase")]
 #[serde(rename_all = "camelCase")]
-pub struct Error {
+pub struct RandomExampleError {
     pub error_message: String,
 }
 
 #[derive(TS, Deserialize, Serialize)]
 #[ts(export, export_to = "random-example.ts", rename_all = "snake_case")]
-pub enum Channel {
+pub enum RandomExampleChannelName {
     RandomExample,
 }

@@ -2,16 +2,12 @@ import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import { invoke } from "@tauri-apps/api/core";
 import "./App.css";
+import type { GreetArgs, GreetChannelName, GreetResponse } from "@ipc-if/greet";
 import type {
-  Args as GreetArgs,
-  Channel as GreetChannel,
-  Response as GreetResponse,
-} from "@ipc-if/greet";
-import type {
-  Args as RandomExampoleArgs,
-  Channel as RandomExampoleChannel,
-  Error as RandomExampoleError,
-  Response as RandomExampoleResponse,
+  RandomExampleArgs,
+  RandomExampleChannelName,
+  RandomExampleError,
+  RandomExampleResponse,
 } from "@ipc-if/random-example";
 
 function App() {
@@ -23,7 +19,7 @@ function App() {
   async function greet() {
     // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 
-    const channel: GreetChannel = "greet";
+    const channel: GreetChannelName = "greet";
     const args: GreetArgs = {
       name,
     };
@@ -33,19 +29,19 @@ function App() {
   }
 
   async function randomExample() {
-    const channel: RandomExampoleChannel = "random_example";
-    const args: RandomExampoleArgs = {
+    const channel: RandomExampleChannelName = "random_example";
+    const args: RandomExampleArgs = {
       requestId: self.crypto.randomUUID(),
     };
     try {
-      const { message, responseId, timestamp }: RandomExampoleResponse =
+      const { message, responseId, timestamp }: RandomExampleResponse =
         await invoke(channel, { args });
 
       const value =
         `(success)message: ${message}, responseId: ${responseId}, timestamp: ${timestamp}`;
       setRandomExampleMsg(value);
     } catch (err: unknown) {
-      const { errorMessage } = err as RandomExampoleError;
+      const { errorMessage } = err as RandomExampleError;
       const value = `(failed)error message: ${errorMessage}`;
 
       setRandomExampleMsg(value);
