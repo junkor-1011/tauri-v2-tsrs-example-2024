@@ -1,11 +1,11 @@
-use ipc_if::greet;
+use ipc_if::greet::{GreetArgs, GreetResponse};
 
 // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
 #[tauri::command]
-fn greet(args: greet::Args) -> greet::Response {
+fn greet(args: GreetArgs) -> GreetResponse {
     let message = format!("Hello, {}! You've been greeted from Rust!", args.name);
 
-    greet::Response { message }
+    GreetResponse { message }
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
